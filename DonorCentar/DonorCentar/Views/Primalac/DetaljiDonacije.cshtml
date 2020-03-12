@@ -1,0 +1,69 @@
+﻿@model DonorCentar.ViewModels.PrimalacDetaljiDonacijeVM
+
+@{
+    ViewData["Title"] = "DetaljiDonacije";
+    Layout = "~/Views/Shared/_Primalac.cshtml";
+}
+
+<div class="content-box">
+    <form id="DetaljiDonacije">
+        <div id="pregled-donacije-split">
+            <div id="pregled-donacije-left">
+                <div class="form-group">
+                    <h3 class="text-muted">Donor</h3>
+                    <input type="text" readonly class="form-control" asp-for="DonorNaziv" />
+                </div>
+                <div class="form-group">
+                    <h3 class="text-muted">Adresa</h3>
+                    <input type="text" readonly class="form-control" value="@Model.DonorAdresa, @Model.DonorGrad" />
+                </div>
+                <div class="form-group">
+                    <h3 class="text-muted">Tip donacije</h3>
+                    <input type="text" readonly class="form-control" value="@Model.TipDonacije" />
+                </div>
+            </div>
+            <div id="pregled-donacije-right">
+                <div class="form-group">
+                    <h3 class="text-muted">Opis</h3>
+                    <textarea readonly class="form-control bigger-box">@Model.Opis</textarea>
+                </div>
+                <div class="form-group">
+                    <h3 class="text-muted">Količina</h3>
+                    <input type="text" readonly value="@Model.Kolicina @Model.JedinicaMjere" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <h3 class="text-muted">Transport</h3>
+                    @{
+                        if (Model.TransportId != 0 && Model.InformacijeId == 1)
+                        {
+                            <input type="text" readonly class="form-control" value="@Model.DonorNaziv obezbjeđuje transport" />
+                        }
+                        else if (Model.InformacijeId == 2)
+                        {
+                            <input type="text" readonly class="form-control" value="@Model.DonorNaziv transport na nivou kantona" />
+                        }
+                        else if (Model.InformacijeId == 3)
+                        {
+                            <input type="text" readonly class="form-control" value="@Model.DonorNaziv obezbjeđuje transport na nivou grada" />
+                        }
+                        else
+                        {
+                            <input type="text" readonly class="form-control" value="Transport nije obezbjeđen" />
+                        }
+                    }
+                </div>
+
+
+                <input type="hidden" asp-for="DonacijaId" />
+            </div>
+        </div>
+        @if (ViewBag.akcija == 1)
+        {
+            <a class="btn btn-dark" asp-action="ZatrazeneDonacije">Nazad</a>
+        }
+        else
+        {
+            <a class="btn btn-dark" asp-action="PregledDonacija">Nazad</a>
+        }
+    </form>
+</div>

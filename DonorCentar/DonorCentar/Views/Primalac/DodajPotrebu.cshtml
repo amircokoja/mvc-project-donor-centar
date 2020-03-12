@@ -1,0 +1,71 @@
+﻿@model DonorCentar.ViewModels.DodajDonacijuPotrebuViewModel
+
+@{
+    ViewData["Title"] = "DodajPotrebu";
+    Layout = "~/Views/Shared/_Primalac.cshtml";
+}
+
+
+    <div class="content-box">
+        <form asp-action="SpasiPotrebu">
+            <div class="form-group">
+                <label for="TipDonacijeId">Tip donacije</label>
+                <select id="TipDonacijeId" asp-for="TipDonacijeId" asp-items="Model.TipDonacije" class="form-control">
+                    <option value="">Izaberite tip donacije</option>
+                </select>
+                <span asp-validation-for="TipDonacijeId"></span>
+            </div>
+            <div class="form-group">
+                <label for="Opis">Opis</label>
+                <textarea id="Opis" asp-for="Opis" class="form-control bigger-box"></textarea>
+                <span asp-validation-for="Opis"></span>
+            </div>
+            <div class="form-group">
+                <label for="Kolicina">Kolicina</label>
+                <input id="Kolicina" type="text" asp-for="Kolicina" class="form-control" />
+                <span asp-validation-for="Kolicina"></span>
+            </div>
+            <div class="form-group JedinicaM">
+                <label for="JedinicaMjere">Jedinica mjere</label>
+                <select id="JedinicaMjere" asp-for="JedinicaMjere" asp-items="Html.GetEnumSelectList<JedinicaMjere>()" class="form-control">
+                    <option value="">Izaberite jedinicu mjere</option>
+                </select>
+                <span asp-validation-for="JedinicaMjere"></span>
+            </div>
+
+            <input type="hidden" asp-for="DonacijaId" />
+            <button type="submit" class="btn btn-dark">Spasi</button>
+        </form>
+
+
+
+        <div class="modal" tabindex="-1" role="dialog" id="myModal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Potreba spašena</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Potreba je uspješno spašena.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <a asp-action="DodajPotrebu" class="btn btn-primary">U redu</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+@section Scripts {
+    <script>
+        if ('@ViewBag.Prikazi' != null && '@ViewBag.Prikazi' == "prikazi")
+        {
+            $('#myModal').modal('show');
+        }
+    </script>
+}

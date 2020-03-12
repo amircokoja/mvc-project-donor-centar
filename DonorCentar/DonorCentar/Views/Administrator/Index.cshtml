@@ -1,0 +1,19 @@
+﻿@model DonorCentar.ViewModels.AdminViewModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Administrator.cshtml";
+}
+<div class="content-box">
+    <div id="profil-admin">
+        <ul class="list-group">
+            <li class="list-group-item">
+                <h1>@Model.KorisnickoIme</h1>
+                <p class="text-info"><em>@Model.tipKorisnika</em></p>
+            </li>
+            <li class="list-group-item">
+                <a href="#" class="btn btn-primary">Postavke</a>
+            </li>
+        </ul>
+    </div>
+</div>
+

@@ -1,0 +1,203 @@
+﻿.field-validation-error {
+    color: rgb(217,83,79);
+}
+
+.input-validation-error {
+    border: 2px solid rgb(217,83,79);
+}
+
+body {
+    height: 100vh;
+}
+
+#main {
+    display: flex;
+}
+
+#left {
+    flex: 1;
+}
+
+#right {
+    flex: 4;
+}
+
+#left .navbar {
+    height: 100vh;
+}
+
+#left .navbar .container ul {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+#left img {
+    height: 100px;
+    width: auto;
+}
+
+#left li a {
+    border-bottom: 1px solid gray;
+}
+
+#left li .top-b {
+    border-top: 1px solid gray;
+}
+
+
+/***********  PROFIL  **************/
+#right .pb-3 {
+    height: 100vh;
+}
+
+
+#profil {
+    width: 80%;
+    box-shadow: 7px 10px 15px rgba(0, 0, 0, 0.123), -7px 10px 10px rgba(0, 0, 0, .05);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+#profil-left {
+    flex: 1;
+    border-right: 1px solid rgba(128, 128, 128, 0.219);
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    margin: 30px 0;
+}
+
+    #profil-left img {
+        height: 200px;
+        width: auto;
+        border-radius: 5px;
+    }
+
+#profil-right {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+}
+
+#profil-name {
+    padding: 30px;
+}
+
+#profil-info {
+    padding: 30px;
+}
+
+#profil-admin {
+    margin: 30px auto;
+    width: 80%;
+    box-shadow: 7px 10px 15px rgba(0, 0, 0, 0.123), -7px 10px 10px rgba(0, 0, 0, .05);
+    box-sizing: border-box;
+    height: 500px;
+    padding: 50px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#profil-admin ul {
+    width: 80%;
+}
+
+.alert {
+    margin: 0;
+}
+
+.page-box {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.page-box-top {
+    width: 90%;
+    height: 90%;
+    margin: 0;
+}
+
+.page-box .table td, .page-box .table tr {
+    vertical-align: middle;
+    cursor: default;
+}
+
+
+
+.pagination {
+    background: #BFBFBF;
+    color: #55595c;
+    padding: 10px;
+}
+
+.pagination li {
+    padding: 0 15px;
+}
+
+.content-box {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.list-group-item.active {
+    background: #dfdfdf;
+    border: none;
+    color: rgb(85, 89, 92);
+}
+
+#left li .disabled {
+    color: rgba(128, 128, 128, 0.6) !important;
+}
+
+#left .main {
+    background: #BFBFBF !important;
+    color: #55595c !important;
+}
+
+#DodajPotrebu .bigger-box {
+    height: 200px;
+}
+
+#DodajPotrebu .modal-content {
+    width: 800px !important;
+}
+
+#pregled-donacije-split {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#pregled-donacije-left, #pregled-donacije-right {
+    flex: 1;
+    padding: 10px;
+}
+
+#DetaljiDonacije {
+    width: 100%;
+}
+
+
+#obavijesti-lista {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.content-box form {
+    width: 100%;
+}

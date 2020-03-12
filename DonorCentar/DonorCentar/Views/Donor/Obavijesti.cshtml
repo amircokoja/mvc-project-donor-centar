@@ -1,0 +1,40 @@
+﻿@model DonorCentar.ViewModels.ObavijestiVM
+@{
+    ViewData["Title"] = "Obavijesti";
+    Layout = "~/Views/Shared/_Donor.cshtml";
+}
+
+<div class="page-box-top">
+    <div class="list-group">
+        <a href="#" class="list-group-item list-group-item-action active">
+            Obavijesti
+        </a>
+        <ul class="list-group">
+            @foreach (var x in Model.rows)
+            {
+                @if (x.TipObavijestiId == 2)
+                {
+                    <li class="list-group-item" id="obavijesti-lista">
+                        <a asp-action="MojeAktivneDonacije">Imate novi zahtjev za donacijom <em class="text-muted">@x.Naziv</em></a>
+                        <a class="btn btn-danger" asp-action="IzbrisiObavijest" asp-route-obavijestId="@x.ObavijestId">Izbriši</a>
+                    </li>
+                }
+                else if (x.TipObavijestiId == 4)
+                {
+                    <li class="list-group-item" id="obavijesti-lista">
+                        <a asp-action="MojeAktivneDonacije">Primalac <em class="text-muted">@x.Naziv</em> omogućava transport za vašu donaciju</a>
+                        <a class="btn btn-danger" asp-action="IzbrisiObavijest" asp-route-obavijestId="@x.ObavijestId">Izbriši</a>
+                    </li>
+                }
+                else if (x.TipObavijestiId == 5)
+                {
+                    <li class="list-group-item" id="obavijesti-lista">
+                        <a asp-action="HistorijaDonacija">Primalac <em class="text-muted">@x.Naziv</em> Vam je ostavio dojam. Uzvratite dojam.</a>
+                        <a class="btn btn-danger" asp-action="IzbrisiObavijest" asp-route-obavijestId="@x.ObavijestId">Izbriši</a>
+                    </li>
+                }
+            }
+
+        </ul>
+    </div>
+</div>

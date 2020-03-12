@@ -1,0 +1,30 @@
+﻿@model DonorCentar.ViewModels.DonorPregledPotrebaVM
+@{
+    ViewData["Title"] = "MojeAktivneDonacije";
+    Layout = "~/Views/Shared/_Donor.cshtml";
+}
+
+<table class="table table-dark">
+    <thead>
+        <tr>
+            <th scope="col">Primalac</th>
+            <th scope="col">Tip donacije</th>
+            <th scope="col">Status</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var x in Model.rows)
+        {
+            <tr>
+                <td>@x.LicniPodaciNaziv</td>
+                <td>@x.TipDonacije</td>
+                <td>@x.StatusOpis</td>
+                <td><a class="btn btn-info" asp-route-donacijaId="@x.DonacijaId" asp-route-akcija="2" asp-action="DetaljiDonacije">Detalji</a></td>
+                <td><a class="btn btn-success" asp-route-donacijaId="@x.DonacijaId" asp-action="Doniraj">Doniraj</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+

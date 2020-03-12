@@ -1,0 +1,54 @@
+﻿@model DonorCentar.ViewModels.ObavijestiVM
+@{
+    ViewData["Title"] = "Obavijesti";
+    Layout = "~/Views/Shared/_Primalac.cshtml";
+}
+
+<div class="page-box-top">
+    <div class="list-group">
+        <a href="#" class="list-group-item list-group-item-action active">
+            Obavijesti
+        </a>
+        <ul class="list-group">
+            @foreach (var x in Model.rows)
+            {
+                @if (x.TipObavijestiId == 7)
+                {
+                    <li class="list-group-item" id="obavijesti-lista">
+                        <a asp-action="PregledDonacija">Donor @x.Naziv je odbio vaš zahtjev za donacijom</a>
+                        <a class="btn btn-danger" asp-action="IzbrisiObavijest" asp-route-obavijestId="@x.ObavijestId">Izbriši</a>
+                    </li>
+                }
+                else if (x.TipObavijestiId == 3)
+                {
+                    <li class="list-group-item" id="obavijesti-lista">
+                        <a asp-action="ZatrazeneDonacije">Donor @x.Naziv je prihvatio vaš zahtjev za donacijom.</a>
+                        <a class="btn btn-danger" asp-action="IzbrisiObavijest" asp-route-obavijestId="@x.ObavijestId">Izbriši</a>
+                    </li>
+                }
+                else if (x.TipObavijestiId == 8)
+                {
+                    <li class="list-group-item" id="obavijesti-lista">
+                        <a asp-action="ZatrazeneDonacije">Imate novu donaciju. @x.Naziv je donator.</a>
+                        <a class="btn btn-danger" asp-action="IzbrisiObavijest" asp-route-obavijestId="@x.ObavijestId">Izbriši</a>
+                    </li>
+                }
+                else if (x.TipObavijestiId == 6)
+                {
+                    <li class="list-group-item" id="obavijesti-lista">
+                        <a asp-action="ZatrazeneDonacije">Donor @x.Naziv omogućava transport za vašu donaciju.</a>
+                        <a class="btn btn-danger" asp-action="IzbrisiObavijest" asp-route-obavijestId="@x.ObavijestId">Izbriši</a>
+                    </li>
+                }
+                else if (x.TipObavijestiId == 9)
+                {
+                    <li class="list-group-item" id="obavijesti-lista">
+                        <a asp-action="ZatrazeneDonacije">Donor @x.Naziv je prekinuo donaciju.</a>
+                        <a class="btn btn-danger" asp-action="IzbrisiObavijest" asp-route-obavijestId="@x.ObavijestId">Izbriši</a>
+                    </li>
+                }
+            }
+
+        </ul>
+    </div>
+</div>

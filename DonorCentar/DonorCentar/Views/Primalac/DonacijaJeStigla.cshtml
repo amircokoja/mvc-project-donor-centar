@@ -1,0 +1,29 @@
+﻿@model DonorCentar.ViewModels.PrimalacDonacijaJeStiglaVM
+
+@{
+    ViewData["Title"] = "DonacijaJeStigla";
+    Layout = "~/Views/Shared/_Primalac.cshtml";
+}
+
+
+    <div class="content-box">
+        <form asp-action="DodajDojam">
+            <div class="form-group">
+                <label for="DojamId">Dojam</label>
+                <select id="DojamId" asp-for="DojamId" asp-items="Model.ListaDojmova" class="form-control">
+                    <option value="">Izaberite dojam</option>
+                </select>
+                <span asp-validation-for="DojamId"></span>
+            </div>
+            <div class="form-group">
+                <label for="Opis">Opis</label>
+                <textarea id="Opis" asp-for="Opis" class="form-control bigger-box"></textarea>
+                <span asp-validation-for="Opis"></span>
+            </div>
+
+            <input asp-for="DonacijaId" type="hidden" />
+            <input asp-for="KorisnikId" type="hidden" />
+
+            <button class="btn btn-primary" type="submit">Spasi</button>
+        </form>
+    </div>

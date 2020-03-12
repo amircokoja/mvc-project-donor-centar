@@ -1,0 +1,25 @@
+﻿@model DonorCentar.ViewModels.ObavijestiVM
+@{
+    ViewData["Title"] = "Obavijesti";
+    Layout = "~/Views/Shared/_Administrator.cshtml";
+}
+<div class="page-box-top">
+    <div class="list-group">
+        <a href="#" class="list-group-item list-group-item-action active">
+            Obavijesti
+        </a>
+        <ul class="list-group">
+            @foreach (var x in Model.rows)
+            {
+                @if (x.TipObavijestiId == 1)
+                {
+                    <li class="list-group-item">
+                        <a asp-action="NeverifikovaniPrimaoci">@x.Obavijest <em class="text-muted">@x.Naziv</em></a>
+                        <a asp-action="IzbrisiObavijest" asp-route-obavijestId="@x.ObavijestId" class="btn btn-danger float-right">Izbriši</a>
+                    </li>
+                }
+
+            }
+        </ul>
+    </div>
+</div>

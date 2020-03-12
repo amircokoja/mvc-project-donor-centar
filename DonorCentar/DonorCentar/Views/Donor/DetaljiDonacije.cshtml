@@ -1,0 +1,51 @@
+﻿@model DonorCentar.ViewModels.DonorDetaljiDonacijeVM
+
+@{
+    ViewData["Title"] = "Detalji Donacije";
+    Layout = "~/Views/Shared/_Donor.cshtml";
+}
+
+<div class="content-box">
+    <form id="DetaljiDonacije">
+        <div id="pregled-donacije-split">
+            <div id="pregled-donacije-left">
+                <div class="form-group">
+                    <h3 class="text-muted">Primalac</h3>
+                    <input type="text" readonly class="form-control" asp-for="PrimalacLicniPodaciNaziv" />
+                </div>
+                <div class="form-group">
+                    <h3 class="text-muted">Adresa</h3>
+                    <input type="text" readonly class="form-control" value="@Model.PrimalacAdresa, @Model.PrimalacGrad" />
+                </div>
+                <div class="form-group">
+                    <h3 class="text-muted">Tip donacije</h3>
+                    <input type="text" readonly class="form-control" asp-for="TipDonacije" />
+                </div>
+            </div>
+            <div id="pregled-donacije-right">
+                <div class="form-group">
+                    <h3 class="text-muted">Opis</h3>
+                    <textarea asp-for="Opis" readonly class="form-control bigger-box"></textarea>
+                </div>
+                <div class="form-group">
+                    <h3 class="text-muted">Količina</h3>
+                    <input type="text" readonly value="@Model.Kolicina @Model.JedinicaMjere" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <h3 class="text-muted">Status</h3>
+                    <input type="text" readonly class="form-control" asp-for="StatusOpis" />
+                </div>
+                <input type="hidden" asp-for="DonacijaId" />
+            </div>
+        </div>
+        @if (ViewBag.Akcija == 1)
+        {
+            <a class="btn btn-primary" asp-action="MojeAktivneDonacije">Nazad</a>
+        }
+        else
+        {
+            <a class="btn btn-primary" asp-action="PregledPotreba">Nazad</a>
+        }
+    </form>
+</div>
+

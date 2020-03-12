@@ -1,0 +1,106 @@
+﻿@using DonorCentar.Helper;
+@{
+    Layout = null;
+    //  BazaPodataka db = new BazaPodataka();
+    //int KorisnikId = Context.GetLogiraniKorisnik().Id;
+    //int brojObavijesti = db.Obavijest.Where(o => o.ZaKorisnikId == KorisnikId).Count();
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    <title>Partner</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/lux.css" />
+    <link rel="stylesheet" href="~/css/style.css" />
+    <link rel="icon" href="~/img/logo.png" />
+</head>
+<body>
+    <div id="main">
+        <div id="left">
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
+                <div class="container">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="mb-3">
+                            <img src="~/img/logo.png" alt="" />
+                        </li>
+                        <li>
+                            @if (ViewBag.Active == "Index")
+                            {
+                                <a class="nav-link text-light top-b activee" asp-controller="Partner" asp-action="Index">Profil</a>
+                            }
+                            else
+                            {
+                                <a class="nav-link text-light top-b" asp-controller="Partner" asp-action="Index">Profil</a>
+                            }
+                        </li>
+                        <li>
+                            @if (ViewBag.Active == "Obavijesti")
+                            {
+                                <a class="nav-link text-light activee" asp-controller="Partner" asp-action="Obavijesti">Obavijesti</a>
+                            }
+                            else
+                            {
+                                <a class="nav-link text-light" asp-controller="Partner" asp-action="Obavijesti">Obavijesti</a>
+                            }
+                        </li>
+                        <li>
+                            @if (ViewBag.Active == "DonacijeBezTransporta")
+                            {
+                                <a class="nav-link text-light activee" asp-controller="Partner" asp-action="DonacijeBezTransporta">Donacije bez transporta</a>
+                            }
+                            else
+                            {
+                                <a class="nav-link text-light" asp-controller="Partner" asp-action="DonacijeBezTransporta">Donacije bez transporta</a>
+                            }
+                        </li>
+                        <li>
+                            @if (ViewBag.Active == "HistorijaDonacija")
+                            {
+                                <a class="nav-link text-light activee" asp-controller="Partner" asp-action="HistorijaDonacija">Historije donacija</a>
+                            }
+                            else
+                            {
+                                <a class="nav-link text-light" asp-controller="Partner" asp-action="HistorijaDonacija">Historije donacija</a>
+                            }
+                        </li>
+                        <li>
+                            @if (ViewBag.Active == "OstaliKorisnici")
+                            {
+                                <a class="nav-link text-light activee" asp-controller="Partner" asp-action="OstaliKorisnici">Ostali korisnici</a>
+                            }
+                            else
+                            {
+                                <a class="nav-link text-light" asp-controller="Partner" asp-action="OstaliKorisnici">Ostali korisnici</a>
+                            }
+                        </li>
+                        <li>
+                            <a class="nav-link btn btn-secondary text-dark mt-5" asp-area="" asp-controller="Home" asp-action="Index">Odjavi se</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <div id="right">
+            <div class="container">
+                <main role="main">
+                    @RenderBody()
+                </main>
+            </div>
+        </div>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

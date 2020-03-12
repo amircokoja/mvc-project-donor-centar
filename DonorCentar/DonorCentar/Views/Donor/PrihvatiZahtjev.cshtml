@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewData["Title"] = "PrihvatiZahtjev";
+    Layout = "~/Views/Shared/_Donor.cshtml";
+}
+
+
+
+    <div class="content-box">
+        <h3 class="text-muted">
+            Da li obezbjeđujete transport za ovu donaciju?
+        </h3>
+        <br />
+        <hr />
+        <br />
+        <a asp-action="ObezbjediTransport" class="btn btn-success mr-3" asp-route-donacijaId="@ViewBag.donacijaId">Da</a>
+        <a asp-action="MojeAktivneDonacije" class="btn btn-danger">Ne</a>
+    </div>

@@ -1,0 +1,73 @@
+﻿@model DonorCentar.ViewModels.HomeRegistracijaVM;
+
+@{
+    ViewData["Title"] = "Registracija";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Registracija</h1>
+
+<div id="registracija-form">
+    <form asp-action="Spasi" asp-controller="Home">
+        @Html.AntiForgeryToken();
+        <div class="form-group">
+            <label for="TipKorisnikaId">Tip korisnika</label>
+            <select id="TipKorisnikaId" asp-for="TipKorisnikaId" asp-items="Model.TipKorisnika" class="form-control">
+                <option value="">Izaberite tip korisnika</option>
+            </select>
+            <span asp-validation-for="TipKorisnikaId"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="Naziv">Naziv</label>
+            <input id="Naziv" asp-for="Naziv" class="form-control" />
+            <span asp-validation-for="Naziv"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="Email">Email</label>
+            <input id="Email" asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="GradId">Grad</label>
+            <select id="GradId" asp-for="GradId" asp-items="Model.Grad" class="form-control">
+                <option  value="">Izaberite grad</option>
+            </select>
+            <span asp-validation-for="GradId"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="Adresa">Adresa</label>
+            <input id="Adresa" asp-for="Adresa" class="form-control" />
+            <span asp-validation-for="Adresa"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="BrojTelefona">Broj telefona</label>
+            <input id="BrojTelefona" asp-for="BrojTelefona" class="form-control" />
+            <span asp-validation-for="BrojTelefona"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="KorisnickoIme">Korisničko ime</label>
+            <input id="KorisnickoIme" asp-for="KorisnickoIme" class="form-control" />
+            <span asp-validation-for="KorisnickoIme"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="Sifra">Šifra</label>
+            <input id="Sifra" asp-for="Sifra" class="form-control" />
+            <span asp-validation-for="Sifra"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="PonoviSifru">Ponovite šifru</label>
+            <input id="PonoviSifru" asp-for="PonoviSifru" class="form-control" />
+            <span asp-validation-for="PonoviSifru"></span>
+        </div>
+
+        <button type="submit" class="btn btn-dark">Registruj se</button>
+    </form>
+</div>

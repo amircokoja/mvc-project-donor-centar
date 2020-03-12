@@ -1,0 +1,66 @@
+﻿@*@using X.PagedList;
+@using X.PagedList.Mvc.Core;*@
+
+@*@model IPagedList<DonorCentar.Models.Korisnik>*@
+
+@{
+    ViewData["Title"] = "NeverifikovaniPrimaoci";
+    Layout = "~/Views/Shared/_Administrator.cshtml";
+}
+
+<div class="content-box">
+    <div class="page-box" id="neverifikovani">
+        <table class="table table-hover" id="table">
+            <thead>
+                <tr class="table-primary">
+                    <th>Naziv</th>
+                    <th>Email</th>
+                    <th>Broj telefona</th>
+                    <th>Adresa</th>
+                    <th>Akcija</th>
+                </tr>
+            </thead>
+            @*<tbody id="tableBody">
+                @foreach (var x in Model)
+                {
+                    <tr>
+                        <td>@x.LicniPodaci.Naziv</td>
+                        <td>@x.LicniPodaci.Email</td>
+                        <td>@x.LicniPodaci.BrojTelefona</td>
+                        <td>@x.LicniPodaci.Adresa, @x.Grad.Naziv</td>
+                        <td><a class="btn btn-success" asp-route-korisnikId="@x.Id" asp-action="Verifikuj">Verifikuj</a></td>
+                    </tr>
+                }
+            </tbody>*@
+        </table>
+        @*@Html.PagedListPager(Model, page => Url.Action("NeverifikovaniPrimaoci", new
+ {
+  page*@
+ @*}))*@
+    </div>
+</div>
+
+
+
+
+
+<script>
+    $(document).ready(function () {
+            var url = "/SelectList/getNeverifikovaniPrimaoci";
+
+            $.getJSON(url, function (data) {
+                var items = [];
+                $.each(data, function (key, val) {
+                    console.log(val);
+                    items.push(`<tr>
+                        <td>${val.naziv}</td>
+                        <td>${val.email}</td>
+                        <td>${val.brojTelefona}</td>
+                        <td>${val.adresa}, ${val.grad}</td>
+                        <td><a class="btn btn-success" href="/Administrator/Verifikuj?korisnikId=${val.korisnikId}">Verifikuj</a></td></tr>`)
+                });
+                    $("<tbody>", { html: items.join("") }).appendTo("#table");
+
+            });
+    });
+</script>

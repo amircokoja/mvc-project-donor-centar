@@ -1,0 +1,78 @@
+﻿@using X.PagedList;
+@using X.PagedList.Mvc.Core;
+
+@model IPagedList<DonorCentar.Models.Donacija>
+@{
+    ViewData["Title"] = "MojePotrebe";
+    Layout = "~/Views/Shared/_Primalac.cshtml";
+}
+
+
+<div class="content-box">
+    <div class="page-box">
+        <table class="table table-hover">
+            <thead>
+                <tr class="table-primary">
+                    <th>Tip donacije</th>
+                    <th>Količina</th>
+                    <th>Jedinica mjere</th>
+                    <th>Status</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var x in Model)
+                {
+                <tr>
+                    <td>@x.TipDonacije.Tip</td>
+                    <td>@x.Kolicina</td>
+                    <td>@x.JedinicaMjere</td>
+                    <td>@x.Status.Opis</td>
+                    @if (x.StatusId == 2)
+                    {
+                        <td><a class="btn btn-success" asp-action="Uredi" asp-route-donacijaId="@x.DonacijaId">Uredi</a></td>
+                        <td><a class="btn btn-danger" asp-action="IzbrisiPotrebu" asp-route-donacijaId="@x.DonacijaId">Izbriši</a></td>
+                    }
+                    else
+                    {
+                        <td></td>
+                        <td></td>
+                    }
+                </tr>
+                }
+            </tbody>
+        </table>
+        @Html.PagedListPager(Model, page => Url.Action("MojePotrebe", new { page }))
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" id="izbrisiModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Potreba dodana</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Potreba je uspješno izbrisana.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">U redu</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <script>
+        if ('@ViewBag.Prikazi' != null && '@ViewBag.Prikazi' == "prikazi")
+        {
+            $('#izbrisiModal').modal('show');
+        }
+    </script>
+}

@@ -1,0 +1,16 @@
+﻿@using DonorCentar.Models;
+@using DonorCentar.Helper;
+
+
+@model DonorCentar.ViewModels.KorisnikVM;
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Donor.cshtml";
+    Korisnik korisnik = Context.GetLogiraniKorisnik();
+}
+<div class="content-box">
+    <div id="profil">
+        @await Html.PartialAsync("_Profil")
+    </div>
+</div>

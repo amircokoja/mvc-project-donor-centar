@@ -1,0 +1,51 @@
+﻿@model DonorCentar.ViewModels.KorisnikVM
+
+<div id="profil-left">
+    
+    <img 
+         @(Model.TipKorisnika == "Donor" ? "src=/img/d.png" : "src=/img/p.png")
+         class="mb-4" />
+    <h3 class="text-secondary">@Model.Naziv</h3>
+    <p class="text-info"><em>@Model.TipKorisnika</em></p>
+</div>
+<div id="profil-right">
+    <div id="profil-name">
+
+        <h3 class="text-secondary">Dojmovi</h3>
+
+        <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                Pozitivni
+                <span class="badge badge-success badge-pill">@Model.PozitivniDojmovi</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                Neutralni
+                <span class="badge badge-light badge-pill">@Model.NeutralniDojmovi</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                Negativni
+                <span class="badge badge-danger badge-pill">@Model.NegativniDojmovi</span>
+            </li>
+        </ul>
+    </div>
+    <div id="profil-info">
+        <ul class="list-group">
+            <li class="list-group-item">
+                <h3>Adresa</h3>
+                <p>@Model.Grad, @Model.Adresa</p>
+            </li>
+            <li class="list-group-item">
+                <h3>Broj telefona</h3>
+                <p>@Model.BrojTelefona</p>
+            </li>
+            <li class="list-group-item">
+                <h3>Email</h3>
+                <p>@Model.Email</p>
+            </li>
+            <li class="list-group-item">
+                <a href="#" class="btn btn-primary">Postavke</a>
+            </li>
+        </ul>
+    </div>
+
+</div>
