@@ -21,10 +21,6 @@ Primalac:
  - Korisničko ime: admin1
  - Šifra: admin1
 
-Baza podataka:
- - Server name: app.fit.ba,1431
- - Korisničko ime: DonorCentarDB
- - Šifra: B77_4zvu
 
 DevOps
  - https://dev.azure.com/fitba1760
