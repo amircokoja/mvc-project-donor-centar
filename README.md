@@ -1,3 +1,5 @@
+ - Link: p1760.app.fit.ba
+ - Link: donor-centar.app.fit.ba 
 # DonorCentar 
 DonorCentar je jednostavan i pristupačan on-line alat za prikupljanje donacija za društvenokorisne projekte i organizacije civilnog društva koje ih provode na području cijele Bosne i Hercegovine.
 Implementacijom navedenog projekta omogućilo bi se jednostavno i brzo koordinisanje donacijama na nivou određenog područja, u ovom slučaju države. Potreba za razvijanjem DonorCentra proizilazi iz generalne drušvene neaktivnosti i neučestvovanja građana u socijalno korisnom radu.
@@ -24,9 +26,5 @@ Baza podataka:
  - Korisničko ime: DonorCentarDB
  - Šifra: B77_4zvu
 
-Plesk:
- - Link pleska: https://www.p1760.app.fit.ba:8443/
- - Korisničko ime: p1760
- - Šifra: hRzQuX!
- - Link: p1760.app.fit.ba
- - Link: donor-centar.app.fit.ba 
+DevOps
+ - https://dev.azure.com/fitba1760
