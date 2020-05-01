@@ -1,9 +1,8 @@
 ﻿@using DonorCentar.Helper;
 @{
     Layout = null;
-    //  BazaPodataka db = new BazaPodataka();
-    //int KorisnikId = Context.GetLogiraniKorisnik().Id;
-    //int brojObavijesti = db.Obavijest.Where(o => o.ZaKorisnikId == KorisnikId).Count();
+    int KorisnikId = Context.GetLogiraniKorisnik().Id;
+    int brojObavijesti = ViewBag.brojObavijesti;
 }
 
 <!DOCTYPE html>
@@ -19,6 +18,8 @@
     <link rel="stylesheet" href="~/css/lux.css" />
     <link rel="stylesheet" href="~/css/style.css" />
     <link rel="icon" href="~/img/logo.png" />
+    <script src="~/js/SignalR/dist/browser/signalr.min.js"></script>
+
 </head>
 <body>
     <div id="main">
@@ -102,5 +103,26 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
+    <script>
+             function updateNotificationCount(id) {
+            if (@KorisnikId == id) {
+                var count = parseInt($("#brojObavijestiPartner").text(), 10);
+                count = count + 1;
+                $("#brojObavijestiPartner").text(count);
+            }
+        }
+
+        $(function () {
+            var notificationHub = new signalR.HubConnectionBuilder().withUrl("/notificationHub").build();
+
+            notificationHub.start().then(function () {
+                console.log("Notification hub started");
+            });
+
+            notificationHub.on("ReceiveNotification", function (id) {
+                updateNotificationCount(id);
+            });
+        });
+    </script>
 </body>
 </html>

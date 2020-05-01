@@ -16,6 +16,7 @@ namespace DonorCentar.ViewModels
         [Required(ErrorMessage = "Unesite opis donacije")]
         public string Opis { get; set; }
         [Required(ErrorMessage = "Unesite kolicinu")]
+        [Range(0,9999999, ErrorMessage = "Unesite broj")]
         public int? Kolicina { get; set; }
         [Required(ErrorMessage = "Izaberite jedinicu mjere")]
         public JedinicaMjere? JedinicaMjere { get; set; }

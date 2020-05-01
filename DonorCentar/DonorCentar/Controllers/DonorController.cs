@@ -3,16 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DonorCentar.Helper;
+using DonorCentar.Hubs;
 using DonorCentar.Models;
 using DonorCentar.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace DonorCentar.Controllers
 {
     public class DonorController : Controller
     {
-        private BazaPodataka db = new BazaPodataka();
+        private BazaPodataka db;
+        private IHubContext<NotificationHub> _hubContext;
+        public DonorController(IHubContext<NotificationHub> hubContext, BazaPodataka _db)
+        {
+            _hubContext = hubContext;
+            db = _db;
+        }
         public IActionResult Index()
         {
             Korisnik k = HttpContext.GetLogiraniKorisnik();
@@ -37,11 +45,11 @@ namespace DonorCentar.Controllers
                 NeutralniDojmovi = db.DojamKorisnik.Where(d => d.KorisnikId == k.Id).Count(d => d.DojamId == 2),
                 NegativniDojmovi = db.DojamKorisnik.Where(d => d.KorisnikId == k.Id).Count(d => d.DojamId == 3)
             };
-            ViewBag.Active = "Index";
+
+            PostaviViewBag(k.Id, "Index");
             return View(korisnikViewModel);
         }
 
-        
         public ActionResult Obavijesti()
         {
             Korisnik k = HttpContext.GetLogiraniKorisnik();
@@ -66,7 +74,7 @@ namespace DonorCentar.Controllers
                 }).ToList()
             };
 
-            ViewBag.Active = "Obavijesti";
+            PostaviViewBag(k.Id, "Obavijesti");
             return View(model);
         }
         public ActionResult DodajDonaciju()
@@ -79,10 +87,10 @@ namespace DonorCentar.Controllers
             }
             /*PRILIKOM DODAVANJA DONACIJE -> DonorID = KorisnikID od donora*/
 
-            ViewBag.Active = "DodajDonaciju";
+            PostaviViewBag(k.Id, "DodajDonaciju");
             return View();
         }
- 
+
         public ActionResult PregledPotreba()
         {
             Korisnik k = HttpContext.GetLogiraniKorisnik();
@@ -105,10 +113,10 @@ namespace DonorCentar.Controllers
                 }).ToList()
             };
 
-            ViewBag.Active = "PregledPotreba";
+            PostaviViewBag(k.Id, "PregledPotreba");
             return View(model);
         }
-     
+
         public ActionResult DonacijeBezTransporta()
         {
             Korisnik k = HttpContext.GetLogiraniKorisnik();
@@ -118,10 +126,10 @@ namespace DonorCentar.Controllers
                 return View("../Home/Index");
             }
 
-            ViewBag.Active = "DonacijeBezTransporta";
+            PostaviViewBag(k.Id, "DonacijeBezTransporta");
             return View();
         }
-        
+
         public ActionResult HistorijaDonacija()
         {
             Korisnik k = HttpContext.GetLogiraniKorisnik();
@@ -133,7 +141,8 @@ namespace DonorCentar.Controllers
 
             /*Ukoliko Donor nije ostavio dojam primaocu za zavrsenu donaciju,
               treba da postoji button "Ostavi dojam" */
-            ViewBag.Active = "HistorijaDonacija";
+
+            PostaviViewBag(k.Id, "HistorijaDonacija");
             return View();
         }
 
@@ -146,7 +155,7 @@ namespace DonorCentar.Controllers
                 return View("../Home/Index");
             }
 
-            ViewBag.Active = "OstaliKorisnici";
+            PostaviViewBag(k.Id, "OstaliKorisnici");
             return View();
         }
 
@@ -177,7 +186,7 @@ namespace DonorCentar.Controllers
                 TipDonacije = donacija.TipDonacije.Tip
             };
 
-            if(donacija.Primalac != null)
+            if (donacija.Primalac != null)
             {
                 model.PrimalacAdresa = donacija.Primalac.LicniPodaci.Adresa;
                 model.PrimalacGrad = donacija.Primalac.Grad.Naziv;
@@ -189,17 +198,16 @@ namespace DonorCentar.Controllers
                 model.PrimalacLicniPodaciNaziv = "Donacija je bez primaoca";
             }
 
-            if(akcija == 1)
+            if (akcija == 1)
             {
-                ViewBag.Active = "MojeAktivneDonacije";
+                PostaviViewBag(k.Id, "MojeAktivneDonacije");
             }
             else
             {
-                ViewBag.Active = "PregledPotreba";
+                PostaviViewBag(k.Id, "PregledPotreba");
             }
 
             ViewBag.Akcija = akcija;
-
             return View(model);
         }
 
@@ -230,6 +238,8 @@ namespace DonorCentar.Controllers
             db.Obavijest.Add(o);
             db.SaveChanges();
 
+            _hubContext.Clients.All.SendAsync("ReceiveNotification", o.ZaKorisnikId);
+
             return RedirectToAction("MojeAktivneDonacije");
         }
 
@@ -249,7 +259,7 @@ namespace DonorCentar.Controllers
                 DonacijaId = donacijaId,
                 OdKorisnikId = k.Id,
                 TipKorisnikaId = 2,
-                TipObavijestiId =  7,
+                TipObavijestiId = 7,
                 Vrijeme = DateTime.Now,
                 ZaKorisnikId = (int)d.PrimalacId
             };
@@ -260,7 +270,7 @@ namespace DonorCentar.Controllers
             db.Obavijest.Add(o);
             db.SaveChanges();
 
-         
+            _hubContext.Clients.All.SendAsync("ReceiveNotification", o.ZaKorisnikId);
 
             return RedirectToAction("MojeAktivneDonacije");
         }
@@ -290,7 +300,7 @@ namespace DonorCentar.Controllers
             {
                 var primalacKorisnik = db.Primalac.Where(p => p.KorisnikId == model.rows[i].PrimalacId).SingleOrDefault();
 
-                if(primalacKorisnik != null)
+                if (primalacKorisnik != null)
                 {
                     string licniNaziv = db.Korisnik.Where(a => a.Id == primalacKorisnik.KorisnikId).Include(a => a.LicniPodaci).SingleOrDefault().LicniPodaci.Naziv;
                     model.rows[i].LicniPodaciNaziv = licniNaziv;
@@ -300,7 +310,8 @@ namespace DonorCentar.Controllers
                     model.rows[i].LicniPodaciNaziv = "?";
                 }
             }
-            ViewBag.Active = "MojeAktivneDonacije";
+
+            PostaviViewBag(k.Id, "MojeAktivneDonacije");
             return View(model);
         }
 
@@ -331,14 +342,20 @@ namespace DonorCentar.Controllers
             db.Obavijest.Add(o);
             db.SaveChanges();
 
+            _hubContext.Clients.All.SendAsync("ReceiveNotification", o.ZaKorisnikId);
+
             return RedirectToAction("MojeAktivneDonacije");
         }
 
         public ActionResult IzbrisiObavijest(int obavijestId)
         {
             Obavijest o = db.Obavijest.Find(obavijestId);
-            db.Obavijest.Remove(o);
-            db.SaveChanges();
+
+            if (o != null)
+            {
+                db.Obavijest.Remove(o);
+                db.SaveChanges();
+            }
 
             return RedirectToAction("Obavijesti");
         }
@@ -367,6 +384,9 @@ namespace DonorCentar.Controllers
             db.Obavijest.Add(o);
             db.SaveChanges();
 
+            _hubContext.Clients.All.SendAsync("ReceiveNotification", o.ZaKorisnikId);
+
+            PostaviViewBag(k.Id, "MojeAktivneDonacije");
             ViewBag.donacijaId = donacijaId;
             return View();
         }
@@ -396,8 +416,16 @@ namespace DonorCentar.Controllers
             db.Obavijest.Add(o);
             db.SaveChanges();
 
+            _hubContext.Clients.All.SendAsync("ReceiveNotification", o.ZaKorisnikId);
+
+            PostaviViewBag(k.Id, "PregledPotreba");
             ViewBag.donacijaId = donacijaId;
             return View("PrihvatiZahtjev");
+        }
+        public void PostaviViewBag(int KorisnikId, string active)
+        {
+            ViewBag.brojObavijesti = db.Obavijest.Where(o => o.ZaKorisnikId == KorisnikId).Count();
+            ViewBag.Active = active;
         }
     }
 }

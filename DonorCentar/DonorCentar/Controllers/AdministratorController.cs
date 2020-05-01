@@ -7,16 +7,23 @@ using DonorCentar.Models;
 using DonorCentar.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
 using X.PagedList;
 using X.PagedList.Mvc.Core;
-
+using Microsoft.AspNetCore.SignalR;
+using DonorCentar.Hubs;
 
 namespace DonorCentar.Controllers
 {
     public class AdministratorController : Controller
     {
-        private BazaPodataka db = new BazaPodataka();
+        private BazaPodataka db;
+        private IHubContext<NotificationHub> _hubContext;
+
+        public AdministratorController(IHubContext<NotificationHub> hubContext, BazaPodataka _db)
+        {
+            _hubContext = hubContext;
+            db = _db;
+        }
 
         public IActionResult Index()
         {
@@ -33,12 +40,10 @@ namespace DonorCentar.Controllers
                 tipKorisnika = "Administrator"
             };
 
-            ViewBag.Active = "Index";
+            PostaviViewBag(k.Id, "Index");
             return View(viewModel);
         }
 
-
-        /*Zavrseno*/
         public ActionResult Obavijesti()
         {
             Korisnik k = HttpContext.GetLogiraniKorisnik();
@@ -64,11 +69,10 @@ namespace DonorCentar.Controllers
             };
             model.rows = model.rows.OrderByDescending(m => m.ObavijestId).ToList();
 
-            ViewBag.Active = "Obavijesti";
+            PostaviViewBag(k.Id, "Obavijesti");
             return View(model);
         }
 
-        /*Zavrseno*/
         public ActionResult NeverifikovaniPrimaoci()
         {
             Korisnik k = HttpContext.GetLogiraniKorisnik();
@@ -78,6 +82,7 @@ namespace DonorCentar.Controllers
                 return View("../Home/Index");
             }
 
+            #region old way
             //List<int> korisnikId = db.Primalac.Where(p => p.Verifikovan == false).Select(p => p.KorisnikId).ToList();
             //List<Korisnik> korisnici = new List<Korisnik>();
             //foreach (var x in korisnikId)
@@ -88,14 +93,13 @@ namespace DonorCentar.Controllers
             //        .Where(k => k.Id == x).FirstOrDefault());
             //}
             //korisnici = korisnici.OrderByDescending(t => t.Id).ToList();
-
             //return View(korisnici.ToPagedList(page ?? 1,5));
+            #endregion
 
-            ViewBag.Active = "NeverifikovaniPrimaoci";
+            PostaviViewBag(k.Id, "NeverifikovaniPrimaoci");
             return View();
         }
 
-        /*Zavrseno*/
         public ActionResult Verifikuj(int korisnikId)
         {
             Korisnik k = HttpContext.GetLogiraniKorisnik();
@@ -110,6 +114,7 @@ namespace DonorCentar.Controllers
 
             return RedirectToAction("NeverifikovaniPrimaoci");
         }
+
         public ActionResult DodajAdmina()
         {
             Korisnik k = HttpContext.GetLogiraniKorisnik();
@@ -119,9 +124,10 @@ namespace DonorCentar.Controllers
                 return View("../Home/Index");
             }
 
-            ViewBag.Active = "DodajAdmina";
+            PostaviViewBag(k.Id, "DodajAdmina");
             return View();
         }
+
         public ActionResult OstaliKorisnici()
         {
             Korisnik k = HttpContext.GetLogiraniKorisnik();
@@ -131,11 +137,10 @@ namespace DonorCentar.Controllers
                 return View("../Home/Index");
             }
 
-            ViewBag.Active = "OstaliKorisnici";
+            PostaviViewBag(k.Id, "OstaliKorisnici");
             return View();
         }
 
-        /*Zavrseno*/
         public ActionResult IzbrisiObavijest(int obavijestId)
         {
             Korisnik k = HttpContext.GetLogiraniKorisnik();
@@ -151,6 +156,11 @@ namespace DonorCentar.Controllers
 
             return RedirectToAction("Obavijesti");
         }
-    }
 
+        public void PostaviViewBag(int KorisnikId, string active)
+        {
+            ViewBag.Active = active;
+            ViewBag.brojObavijesti = db.Obavijest.Where(o => o.TipKorisnikaId == 4).Count();
+        }
+    }
 }

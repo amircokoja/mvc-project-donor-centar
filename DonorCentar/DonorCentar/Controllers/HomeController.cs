@@ -15,19 +15,22 @@ using System.Text;
 using Microsoft.AspNetCore.Http;
 using System.Net.Mail;
 using System.Net;
+using Microsoft.AspNetCore.SignalR;
+using DonorCentar.Hubs;
 
 namespace DonorCentar.Controllers
 {
     public class HomeController : Controller
     {
         private BazaPodataka db;
-
+        private IHubContext<NotificationHub> _hubContext;
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IHubContext<NotificationHub> hubContext, BazaPodataka _db)
         {
-            db = new BazaPodataka();
+            db = _db;
             _logger = logger;
+            _hubContext = hubContext;
         }
 
         public void SendMail(string from, string to, string subject, string body)
@@ -167,6 +170,9 @@ namespace DonorCentar.Controllers
                 db.Obavijest.Add(obavijest);
                 db.Primalac.Add(primalac);
                 db.SaveChanges();
+
+                _hubContext.Clients.All.SendAsync("ReceiveNotification", obavijest.ZaKorisnikId);
+
             }
             else
             {

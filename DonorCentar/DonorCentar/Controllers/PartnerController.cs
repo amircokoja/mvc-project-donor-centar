@@ -3,16 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DonorCentar.Helper;
+using DonorCentar.Hubs;
 using DonorCentar.Models;
 using DonorCentar.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace DonorCentar.Controllers
 {
     public class PartnerController : Controller
     {
-        private BazaPodataka db = new BazaPodataka();
+        private BazaPodataka db;
+        private IHubContext<NotificationHub> _hubContext;
+
+        public PartnerController(IHubContext<NotificationHub> hubContext, BazaPodataka _db)
+        {
+            db = _db;
+            _hubContext = hubContext;
+        }
 
         public IActionResult Index()
         {
@@ -38,9 +47,11 @@ namespace DonorCentar.Controllers
                 NeutralniDojmovi = db.DojamKorisnik.Where(d => d.KorisnikId == k.Id).Count(d => d.DojamId == 2),
                 NegativniDojmovi = db.DojamKorisnik.Where(d => d.KorisnikId == k.Id).Count(d => d.DojamId == 3)
             };
-            ViewBag.Active = "Index";
+
+            PostaviViewBag(k.Id, "Index");
             return View(korisnikViewModel);
         }
+
         public ActionResult Obavijesti()
         {
             Korisnik k = HttpContext.GetLogiraniKorisnik();
@@ -50,7 +61,7 @@ namespace DonorCentar.Controllers
                 return View("../Home/Index");
             }
 
-            ViewBag.Active = "Obavijesti";
+            PostaviViewBag(k.Id, "Obavijesti");
             return View();
         }
         public ActionResult DonacijeBezTransporta()
@@ -62,7 +73,7 @@ namespace DonorCentar.Controllers
                 return View("../Home/Index");
             }
 
-            ViewBag.Active = "DonacijeBezTransporta";
+            PostaviViewBag(k.Id, "DonacijeBezTransporta");
             return View();
         }
         public ActionResult HistorijaDonacija()
@@ -73,7 +84,8 @@ namespace DonorCentar.Controllers
                 ViewData["error_poruka"] = "Nemate pravo pristupa.";
                 return View("../Home/Index");
             }
-            ViewBag.Active = "HistorijaDonacija";
+
+            PostaviViewBag(k.Id, "HistorijaDonacija");
             return View();
         }
         public ActionResult OstaliKorisnici()
@@ -85,8 +97,14 @@ namespace DonorCentar.Controllers
                 return View("../Home/Index");
             }
 
-            ViewBag.Active = "OstaliKorisnici";
+            PostaviViewBag(k.Id, "OstaliKorisnici");
             return View();
+        }
+
+        public void PostaviViewBag(int KorisnikId, string active)
+        {
+            ViewBag.brojObavijesti = db.Obavijest.Where(o => o.ZaKorisnikId == KorisnikId).Count();
+            ViewBag.Active = active;
         }
     }
 }

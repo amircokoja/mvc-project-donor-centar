@@ -1,4 +1,4 @@
-﻿@model DonorCentar.ViewModels.HomeRegistracijaVM;
+﻿@model DonorCentar.ViewModels.HomeRegistracijaVM
 
 @{
     ViewData["Title"] = "Registracija";
@@ -9,7 +9,7 @@
 
 <div id="registracija-form">
     <form asp-action="Spasi" asp-controller="Home">
-        @Html.AntiForgeryToken();
+        @Html.AntiForgeryToken()
         <div class="form-group">
             <label for="TipKorisnikaId">Tip korisnika</label>
             <select id="TipKorisnikaId" asp-for="TipKorisnikaId" asp-items="Model.TipKorisnika" class="form-control">

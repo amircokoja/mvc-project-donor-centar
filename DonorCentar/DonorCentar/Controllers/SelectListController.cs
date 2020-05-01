@@ -11,8 +11,11 @@ namespace DonorCentar.Controllers
 {
     public class SelectListController : Controller
     {
-
-        private BazaPodataka db = new BazaPodataka();
+        private BazaPodataka db;
+        public SelectListController(BazaPodataka _db)
+        {
+            db = _db;
+        }
 
         public JsonResult getNeverifikovaniPrimaoci()
         {

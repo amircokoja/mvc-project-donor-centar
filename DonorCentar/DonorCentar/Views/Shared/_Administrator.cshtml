@@ -2,8 +2,9 @@
 
 @{
     Layout = null;
-    BazaPodataka db = new BazaPodataka();
-    int brojObavijesti = db.Obavijest.Where(o => o.TipKorisnikaId == 4).Count();
+//    BazaPodataka db = new BazaPodataka();
+    //int brojObavijesti = db.Obavijest.Where(o => o.TipKorisnikaId == 4).Count();
+    int brojObavijesti = ViewBag.brojObavijesti;
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -20,6 +21,8 @@
     <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/SignalR/dist/browser/signalr.min.js"></script>
+
     <script src="~/js/site.js" asp-append-version="true"></script>
 
 </head>
@@ -47,14 +50,14 @@
                             {
                                 <a class="nav-link text-light activee" asp-controller="Administrator" asp-action="Obavijesti">
                                     Obavijesti
-                                    <span class="badge badge-primary badge-pill">@brojObavijesti</span>
+                                    <span id="brojObavijestiAdmin" class="badge badge-primary badge-pill">@brojObavijesti</span>
                                 </a>
                             }
                             else
                             {
                                 <a class="nav-link text-light" asp-controller="Administrator" asp-action="Obavijesti">
                                     Obavijesti
-                                    <span class="badge badge-primary badge-pill">@brojObavijesti</span>
+                                    <span id="brojObavijestiAdmin" class="badge badge-primary badge-pill">@brojObavijesti</span>
                                 </a>
                             }
                         </li>
@@ -107,5 +110,27 @@
         </div>
     </div>
     @RenderSection("Scripts", required: false)
+            <script>
+        function updateNotificationCount(id) {
+            if (id == 8) {
+                var count = parseInt($("#brojObavijestiAdmin").text(), 10);
+                count = count + 1;
+                $("#brojObavijestiAdmin").text(count);
+            }
+        }
+
+        $(function () {
+            var notificationHub = new signalR.HubConnectionBuilder().withUrl("/notificationHub").build();
+
+            notificationHub.start().then(function () {
+                console.log("Notification hub started");
+            });
+
+            notificationHub.on("ReceiveNotification", function (id) {
+                updateNotificationCount(id);
+            });
+        });
+
+    </script>
 </body>
 </html>

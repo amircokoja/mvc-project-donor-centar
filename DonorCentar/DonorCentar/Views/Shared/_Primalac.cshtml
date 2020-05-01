@@ -1,10 +1,12 @@
 ﻿@using DonorCentar.Helper;
 @{
     Layout = null;
-    BazaPodataka db = new BazaPodataka();
+    //    BazaPodataka db = new BazaPodataka();
     int KorisnikId = Context.GetLogiraniKorisnik().Id;
-    bool verifikovan = db.Primalac.Where(d => d.KorisnikId == KorisnikId).SingleOrDefault().Verifikovan;
-    int brojObavijesti = db.Obavijest.Where(o => o.ZaKorisnikId == KorisnikId).Count();
+    //    bool verifikovan = db.Primalac.Where(d => d.KorisnikId == KorisnikId).SingleOrDefault().Verifikovan;
+    //    int brojObavijesti = db.Obavijest.Where(o => o.ZaKorisnikId == KorisnikId).Count();
+    bool verifikovan = ViewBag.verifikovan;
+    int brojObavijesti = ViewBag.brojObavijesti;
 }
 
 <!DOCTYPE html>
@@ -21,6 +23,8 @@
     <link rel="stylesheet" href="~/css/lux.css" />
     <link rel="stylesheet" href="~/css/style.css" />
     <link rel="icon" href="~/img/logo.png" />
+    <script src="~/js/SignalR/dist/browser/signalr.min.js"></script>
+
 </head>
 <body>
     @if(verifikovan == false)
@@ -55,14 +59,14 @@
                             {
                                 <a class="nav-link text-light activee" asp-controller="Primalac" asp-action="Obavijesti">
                                     Obavijesti
-                                    <span class="badge badge-primary badge-pill">@brojObavijesti</span>
+                                    <span id="brojObavijestiPrimalac" class="badge badge-primary badge-pill">@brojObavijesti</span>
                                 </a>
                             }
                             else
                             {
                                 <a class="nav-link text-light" asp-controller="Primalac" asp-action="Obavijesti">
                                     Obavijesti
-                                    <span class="badge badge-primary badge-pill">@brojObavijesti</span>
+                                    <span id="brojObavijestiPrimalac" class="badge badge-primary badge-pill">@brojObavijesti</span>
                                 </a>
                             }
                         </li>
@@ -151,6 +155,28 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
+
+    <script>
+        function updateNotificationCount(id) {
+            if (@KorisnikId == id) {
+                var count = parseInt($("#brojObavijestiPrimalac").text(), 10);
+                count = count + 1;
+                $("#brojObavijestiPrimalac").text(count);
+            }
+        }
+
+        $(function () {
+            var notificationHub = new signalR.HubConnectionBuilder().withUrl("/notificationHub").build();
+
+            notificationHub.start().then(function () {
+                console.log("Notification hub started");
+            });
+
+            notificationHub.on("ReceiveNotification", function (id) {
+                updateNotificationCount(id);
+            });
+        });
+    </script>
 </body>
 </html>
 

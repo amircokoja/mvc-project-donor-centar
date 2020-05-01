@@ -8,6 +8,10 @@ namespace DonorCentar.Models
 {
     public class BazaPodataka : DbContext
     {
+        public BazaPodataka(DbContextOptions<BazaPodataka> options)
+            : base(options)
+        {}
+
         public DbSet<Administrator> Administrator { get; set; }
         public DbSet<Donor> Donor { get; set; }
         public DbSet<Grad> Grad { get; set; }
@@ -27,16 +31,16 @@ namespace DonorCentar.Models
         public DbSet<InformacijeTransporta> InformacijeTransporta { get; set; }
         public DbSet<Dojam> Dojam { get; set; }
         public DbSet<DojamKorisnik> DojamKorisnik { get; set; }
+        
 
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(@"Server=app.fit.ba,1431;
-                                                        Database=DonorCentarDB;
-                                                        Trusted_Connection=False;
-                                                        MultipleActiveResultSets=true;
-                                                        User ID=DonorCentarDB;
-                                                        Password=B77_4zvu");
-        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer(@"Server=app.fit.ba,1431;
+        //                                                Database=DonorCentarDB;
+        //                                                Trusted_Connection=False;
+        //                                                MultipleActiveResultSets=true;
+        //                                                User ID=DonorCentarDB;
+        //                                                Password=B77_4zvu");
+        //}
     }
 }

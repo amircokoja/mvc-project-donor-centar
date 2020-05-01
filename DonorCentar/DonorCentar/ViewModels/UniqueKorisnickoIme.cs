@@ -10,13 +10,11 @@ namespace DonorCentar.ViewModels
 {
     public class UniqueKorisnickoIme : ValidationAttribute
     {
-        private BazaPodataka db;
-        public UniqueKorisnickoIme()
-        {
-            db = new BazaPodataka();
-        }
+//        private BazaPodataka db = new BazaPodataka();
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
+            var db = (BazaPodataka)validationContext.GetService(typeof(BazaPodataka));
+
             var korisnik = (HomeRegistracijaVM)validationContext.ObjectInstance;
 
             var loginP = db.LoginPodaci.ToList();

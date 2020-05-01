@@ -9,26 +9,23 @@ namespace DonorCentar.ViewModels
 {
     public class PrijavaValidation : ValidationAttribute
     {
-        private BazaPodataka db;
-        public PrijavaValidation()
-        {
-            db = new BazaPodataka();
-        }
-        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
-        {
-            var prijava = (PrijavaViewModel)validationContext.ObjectInstance;
+        //private BazaPodataka db = new BazaPodataka();
 
-            var loginP = db.LoginPodaci.ToList();
+        //protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        //{
+        //    var prijava = (PrijavaViewModel)validationContext.ObjectInstance;
 
-            foreach (var lp in loginP)
-            {
-                if (lp.KorisnickoIme == prijava.KorisnickoIme && lp.Sifra == prijava.Sifra)
-                {
-                    return ValidationResult.Success;
+        //    var loginP = db.LoginPodaci.ToList();
 
-                }
-            }
-            return new ValidationResult("Korisničko ime ili šifra nisu ispravni.");
-        }
+        //    foreach (var lp in loginP)
+        //    {
+        //        if (lp.KorisnickoIme == prijava.KorisnickoIme && lp.Sifra == prijava.Sifra)
+        //        {
+        //            return ValidationResult.Success;
+
+        //        }
+        //    }
+        //    return new ValidationResult("Korisničko ime ili šifra nisu ispravni.");
+        //}
     }
 }

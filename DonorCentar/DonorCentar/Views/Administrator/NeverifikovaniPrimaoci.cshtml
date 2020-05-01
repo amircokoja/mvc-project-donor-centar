@@ -1,7 +1,6 @@
 ﻿@*@using X.PagedList;
-@using X.PagedList.Mvc.Core;*@
-
-@*@model IPagedList<DonorCentar.Models.Korisnik>*@
+@using X.PagedList.Mvc.Core;
+@model IPagedList<DonorCentar.Models.Korisnik>*@
 
 @{
     ViewData["Title"] = "NeverifikovaniPrimaoci";
@@ -46,21 +45,21 @@
 
 <script>
     $(document).ready(function () {
-            var url = "/SelectList/getNeverifikovaniPrimaoci";
+        var url = "/SelectList/getNeverifikovaniPrimaoci";
 
-            $.getJSON(url, function (data) {
-                var items = [];
-                $.each(data, function (key, val) {
-                    console.log(val);
-                    items.push(`<tr>
-                        <td>${val.naziv}</td>
-                        <td>${val.email}</td>
-                        <td>${val.brojTelefona}</td>
-                        <td>${val.adresa}, ${val.grad}</td>
-                        <td><a class="btn btn-success" href="/Administrator/Verifikuj?korisnikId=${val.korisnikId}">Verifikuj</a></td></tr>`)
-                });
-                    $("<tbody>", { html: items.join("") }).appendTo("#table");
-
+        $.getJSON(url, function (data) {
+            var items = [];
+            $.each(data, function (key, val) {
+                console.log(val);
+                items.push(`<tr>
+                    <td>${val.naziv}</td>
+                    <td>${val.email}</td>
+                    <td>${val.brojTelefona}</td>
+                    <td>${val.adresa}, ${val.grad}</td>
+                    <td><a class="btn btn-success" href="/Administrator/Verifikuj?korisnikId=${val.korisnikId}">Verifikuj</a></td></tr>`)
             });
+                $("<tbody>", { html: items.join("") }).appendTo("#table");
+
+        });
     });
 </script>

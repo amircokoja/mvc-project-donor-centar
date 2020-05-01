@@ -9,13 +9,11 @@ namespace DonorCentar.ViewModels
 {
     public class UniqueNaziv : ValidationAttribute
     {
-        private BazaPodataka db;
-        public UniqueNaziv()
-        {
-            db = new BazaPodataka();
-        }
+    //    private BazaPodataka db = new BazaPodataka();
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
+            var db = (BazaPodataka)validationContext.GetService(typeof(BazaPodataka));
+
             var korisnik = (HomeRegistracijaVM)validationContext.ObjectInstance;
 
             var licniP = db.LicniPodaci.ToList();
